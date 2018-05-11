@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import uuid from "uuid";
+// components
 import Character from "./Character";
+// styles
+import "../styles/characterList.css";
 
 const CharacterList = props => {
 	console.log("CHARACTERLIST PROPS: ", props);
