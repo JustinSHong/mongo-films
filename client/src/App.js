@@ -20,18 +20,30 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      characters: []
+      characters: [],
+      films: []
     };
   }
   // fetch list of characters from db
   componentDidMount() {
     this.getCharactersList();
+    this.getFilmsList();
   }
   getCharactersList() {
     axios
       .get("http://localhost:5000/api/characters")
       .then(response => {
         this.setState({ characters: response.data });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  getFilmsList() {
+    axios
+      .get("http://localhost:5000/api/films")
+      .then(response => {
+        this.setState({ films: response.data });
       })
       .catch(error => {
         console.error(error);
@@ -45,18 +57,34 @@ class App extends Component {
         <h1>Mongo Films</h1>
         <CharacterList characters={this.state.characters} />
 
-        {/* render routes here */}
+        {/* APPLICATION ROUTES */}
         <Switch>
-          <Route exact path={"/"} component={CharacterList} />
+          {/* Route is working */}
+          <Route
+            exact
+            path={"/"}
+            render={props => {
+              return (
+                <CharacterList characters={this.state.characters} {...props} />
+              );
+            }}
+          />
+          {/* Route is in progress */}
           <Route exact path={"/:id"} component={Character} />
+          {/* Route is in progress */}
           <Route exact path={"/films/:id"} component={Films} />
+          {/* Route is in progress */}
           <Route exact path={"/planets/:id"} component={Planets} />
+          {/* Route is in progress */}
           <Route exact path={"/species/:id"} component={Species} />
+          {/* Route is in progress */}
           <Route exact path={"/starships/:id"} component={Starships} />
+          {/* Route is in progress */}
           <Route exact path={"/vehicles/:id"} component={Vehicles} />
+          {/* Route is in progress */}
           <Route
             component={() => {
-              <h3>404 This page does not exist yet...</h3>;
+              return <h3>404 This page does not exist yet...</h3>;
             }}
           />
         </Switch>
